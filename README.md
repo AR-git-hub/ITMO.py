@@ -1,7 +1,11 @@
 # ITMO.py
 
-**Студент:** Александр Рябков, P3124
+**Студент:** Александр Рябков, P3123
 
+
+Устаревшее описание – поменять.
+
+~~~
 ## Лабораторные работы
 
 1. **[LR1 - Сумма двух чисел](LR1/)** - базовый синтаксис Python и знакомство с unittest
@@ -27,4 +31,4 @@
 - LR8: `https://github.com/ALEKSANDROOOOO/ITMO.py/tree/main/LR8`
 - LR9: `https://github.com/ALEKSANDROOOOO/ITMO.py/tree/main/LR9`
 - LR10: `https://github.com/ALEKSANDROOOOO/ITMO.py/tree/main/LR10`
-- LR11: `https://github.com/KirillPetukhov1/python_1sem_hakaton/blob/main/`
+- LR11: `https://github.com/KirillPetukhov1/python_1sem_hakaton/blob/main/`~~~
