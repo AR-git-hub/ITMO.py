@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{app_name}}</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Segoe UI,Arial,sans-serif;background:#F7F9FC;color:#222;padding:40px;line-height:1.6}
+h1{font-size:2.2rem;color:#6A4CFF;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;margin-bottom:30px;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+thead{background:#3F8EF1;color:#fff}
+thead th{padding:12px 15px;text-align:left}
+tbody td{padding:10px 15px;border-bottom:1px solid #eee}
+tbody tr:nth-child(even){background:#F0F7FF}
+tbody tr:hover{background:#E0D4FF}
+.action-btn{padding:6px 10px;font-size:0.9rem;border-radius:6px;text-decoration:none;color:#fff;display:inline-block;margin:3px 0}
+.add-btn{background:#3F8EF1}
+.remove-btn{background:#E63946}
+/* Универсальные стили для блока снизу */
+.user-actions {margin-top: 20px; padding: 15px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.1); border-radius:8px;}
+.user-actions a {margin-right: 15px; color: #3F8EF1; text-decoration: none; font-weight: 500;}
+.user-actions a:hover {text-decoration: underline;}
+#navigation {list-style:none; display:flex; gap:15px; margin-bottom:25px; padding:0;}
+#navigation li a {text-decoration:none; padding:8px 14px; background:#3F8EF1; color:#fff; border-radius:8px;}
+#navigation li a:hover {background:#6A4CFF;}
+#navigation li.current a {background:#6A4CFF;}
+</style>
+</head>
+<body>
+
+<h1>
+    <a href="/users">Список пользователей</a> / {{ user.name }}, ID: {{ user.id }}
+    Email: <span id="email">*скрыто*</span>
+    <button id="toggleEmail">Показать</button>
+</h1>
+
+<script>
+const email = "{{ user.email }}";
+const emailSpan = document.getElementById('email');
+const btn = document.getElementById('toggleEmail');
+btn.addEventListener('click', () => {
+    if (emailSpan.textContent.includes('*')) {
+        emailSpan.textContent = email; btn.textContent = "Скрыть";
+    } else {
+        const [name, domain] = email.split('@');
+        emailSpan.textContent = name.slice(0,3) + "****@" + domain;
+        btn.textContent = "Показать";
+    }
+});
+</script>
+
+<ul id="navigation">
+{% for item in navigation %}
+    {% if item.current %}
+        <li class="current"><a href="{{ item.href }}">{{ item.caption }}</a></li>
+    {% else %}
+        <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+    {% endif %}
+{% endfor %}
+</ul>
+
+<h2>Подписки</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Название валюты</th>
+            <th>Код</th>
+            <th>Курс к рублю</th>
+            <th>Дата добавления</th>
+            <th>Последнее обновление</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for sub in subscriptions %}
+    <tr>
+        <td data-label="Название">{{ sub.name }}</td>
+        <td data-label="Код">{{ sub.code }}</td>
+        <td data-label="Курс">{{ sub.rate }}</td>
+        <td data-label="Дата добавления">{{ sub.date_added }}</td>
+        <td data-label="Последнее обновление">{{ sub.last_updated }}</td>
+        <td>
+            <a class="action-btn remove-btn" href="/users?user={{ user.id }}&delete={{ sub.code }}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+    
+
+<h3>Добавить подписку</h3>
+<ul>
+{% for c in available_currencies %}
+    <li>
+        <a class="action-btn add-btn" href="/users?user={{ user.id }}&add={{ c.code }}">{{ c.name }} ({{ c.code }})</a>
+    </li>
+{% endfor %}
+</ul>
+
+    <h2>Графики курсов подписок</h2>
+    <canvas id="chart" width="800" height="400"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    const graphData = {{ graph_data | tojson }};
+    const keys = Object.keys(graphData);
+    const labels = keys.length ? graphData[keys[0]].map(d => d.date) : [];
+    const datasets = keys.map((code, i) => ({
+        label: code,
+        data: graphData[code].map(d => d.rate),
+        borderColor: `hsl(${i*60 % 360}, 70%, 50%)`,
+        backgroundColor: `hsla(${i*60 % 360}, 70%, 50%, 0.2)`,
+        fill: true
+    }));
+    const ctx = document.getElementById('chart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: { labels: labels, datasets: datasets },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true },
+                title: { display: true, text: 'Динамика курса за 90 дней' }
+            }
+        }
+    });
+    </script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

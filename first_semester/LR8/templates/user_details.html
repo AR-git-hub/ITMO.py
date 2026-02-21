@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ app_name }}</title>
+    
+</head>
+<body>
+    <h1>{{ user.name }} (ID: {{ user.id }})</h1>
+    <button onclick="document.getElementById('email').style.display = (document.getElementById('email').style.display === 'none') ? 'block' : 'none'">
+    Toggle Email
+    </button>
+    <div id="email" style="display:none;">{{ user.email }}</div>
+
+    <h2>Подписки</h2>
+    <table>
+    <tr><th>Код</th><th>Валюта</th><th>Курс</th><th>Дата добавления</th><th>Дата обновления</th><th>Действие</th></tr>
+    {% for sub in subscriptions %}
+    <tr>
+    <td>{{ sub.code }}</td>
+    <td>{{ sub.name }}</td>
+    <td>{{ sub.rate }}</td>
+    <td>{{ sub.date_added }}</td>
+    <td>{{ sub.last_updated }}</td>
+    <td>
+    <a href="/users?user={{ user.id }}&delete={{ sub.code }}">Удалить</a>
+    </td>
+    </tr>
+    {% endfor %}
+    </table>
+
+    <h3>Добавить подписку</h3>
+    <ul>
+    {% for c in available_currencies %}
+    <li><a href="/users?user={{ user.id }}&add={{ c.code }}">{{ c.name }} ({{ c.code }})</a></li>
+    {% endfor %}
+    </ul>
+
+    <a href="/users">Назад к списку пользователей</a>
+
+</body>
+</html>

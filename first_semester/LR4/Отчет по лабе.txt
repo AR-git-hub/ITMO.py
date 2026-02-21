@@ -1,0 +1,17 @@
+лаб отчет сделать.
+
+при таком то количестве шагов повторений repeat, n 
+
+сделать скрины отчет
+
+указать сколько итеарций факториала
+
+два варианта мемо vs мемо и обычный vs обычный
+
+меняем диапазон значений, benchmark(func, n, repeat=5) здесь repeat и times = timeit.repeat(lambda: func(n), number=1, repeat=repeat) number
+
+maxsize
+
+(maxsize сочетается с длиной test_data)
+
+maxsize(None) - "бесконечный" maxsize

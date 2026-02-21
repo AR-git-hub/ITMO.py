@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{app_name}}</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Segoe UI,Arial,sans-serif;background:#F7F9FC;color:#222;padding:40px;line-height:1.6}
+h1{font-size:2.2rem;color:#6A4CFF;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;margin-bottom:30px;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+thead{background:#3F8EF1;color:#fff}
+thead th{padding:12px 15px;text-align:left}
+tbody td{padding:10px 15px;border-bottom:1px solid #eee}
+tbody tr:nth-child(even){background:#F0F7FF}
+tbody tr:hover{background:#E0D4FF}
+.action-btn{padding:6px 10px;font-size:0.9rem;border-radius:6px;text-decoration:none;color:#fff;display:inline-block;margin:3px 0}
+.add-btn{background:#3F8EF1}
+.edit-btn{background:#FFD700;color:#000}
+.remove-btn{background:#E63946}
+#navigation{list-style:none;display:flex;gap:15px;margin-bottom:25px;padding:0}
+#navigation li a{text-decoration:none;padding:8px 14px;background:#3F8EF1;color:#fff;border-radius:8px}
+#navigation li.current a{background:#6A4CFF}
+#navigation li a:hover{background:#6A4CFF}
+form{margin-top:20px;margin-bottom:40px}
+input[type=text],input[type=email]{padding:6px 10px;margin-right:10px;border-radius:6px;border:1px solid #ccc}
+input[type=submit]{padding:6px 10px;border-radius:6px;border:none;background:#3F8EF1;color:#fff;cursor:pointer}
+input[type=submit]:hover{background:#6A4CFF}
+</style>
+</head>
+<body>
+
+<h1>{{app_name}}</h1>
+
+<ul id="navigation">
+{% for item in navigation %}
+    {% if item.current %}
+        <li class="current"><a href="{{ item.href }}">{{ item.caption }}</a></li>
+    {% else %}
+        <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+    {% endif %}
+{% endfor %}
+</ul>
+
+<h2>Добавить нового пользователя</h2>
+<form method="get" action="/users">
+    <input type="hidden" name="action" value="create">
+    <input type="text" name="name" placeholder="Имя" required>
+    <input type="email" name="email" placeholder="E-mail" required>
+    <input type="submit" value="Создать">
+</form>
+
+<h2>Список пользователей</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Имя</th>
+<th>E-mail</th>
+<th>Действия</th>
+</tr>
+</thead>
+<tbody>
+{% for user in users %}
+<tr>
+<td><a href="/users?user={{ user.id }}">{{ user.id }}</a></td>
+<td><a href="/users?user={{ user.id }}">{{ user.name }}</a></td>
+<td>{{ user.email }}</td>
+
+<td>
+    <form style="display:inline" method="get" action="/users">
+        <input type="hidden" name="action" value="update">
+        <input type="hidden" name="user" value="{{ user.id }}">
+        <input type="text" name="name" placeholder="Новое имя">
+        <input type="email" name="email" placeholder="Новый e-mail">
+        <input type="submit" value="Обновить" class="edit-btn">
+    </form>
+    <a href="/users?action=delete&user={{ user.id }}" class="action-btn remove-btn">Удалить</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{app_name}}</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" href="/styles.css"> -->
+    <style>
+        /* ======== GLOBAL RESET ======== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ======== BASE ======== */
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #F7F9FC; /* светлая минималистичная тема */
+    color: #222;
+    padding: 40px;
+    line-height: 1.6;
+}
+
+/* ======== HEADERS ======== */
+h1 {
+    font-size: 2.2rem;
+    color: #6A4CFF;  /* фиолетовый */
+    margin-bottom: 20px;
+}
+
+/* ======== PARAGRAPHS ======== */
+p {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+/* ======== NAVIGATION ======== */
+#navigation {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+#navigation li a {
+    text-decoration: none;
+    padding: 8px 14px;
+    background: #3F8EF1; /* голубой */
+    color: white;
+    border-radius: 8px;
+    transition: 0.2s ease;
+}
+
+#navigation li a:hover {
+    background: #6A4CFF; /* фиолетовый при наведении */
+    transform: translateY(-2px);
+}
+
+/* ======== CONTAINER (если понадобится) ======== */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+/* ======== TABLE STYLES ======== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background-color: #fff; /* белый фон */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+thead {
+    background-color: #3F8EF1; /* голубой */
+    color: #fff;
+}
+
+thead th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+tbody td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #F0F7FF; /* светло-голубой зебра-эффект */
+}
+
+tbody tr:hover {
+    background-color: #E0D4FF; /* легкий фиолетовый при наведении */
+}
+
+tbody td {
+    color: #222;
+    font-size: 1rem;
+}
+
+/* Адаптивно для маленьких экранов */
+@media (max-width: 600px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead tr {
+        display: none; /* скрываем шапку */
+    }
+
+    tbody td {
+        position: relative;
+        padding-left: 50%;
+        border: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    tbody td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        font-weight: 600;
+        color: #6A4CFF; /* фиолетовый для лейблов */
+    }
+}
+
+    </style>
+
+
+</head>
+
+
+<body>
+    <!-- <ul id="navigation">
+    {% for item in navigation %}
+        <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+    {% endfor %}
+    </ul> -->
+    
+    <h1>Пользователь *имя*, *id*, *email (скрыто)*</h1>
+    
+    <p>Навигация по сайту:</p>
+    <ul id="navigation">
+    {% for item in navigation %}
+        <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+    {% endfor %}
+    </ul>
+
+
+    <h2>Подписки</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Название валюты</th>
+                <th>ID</th>
+                <th>Курс к рублю</th>
+                <th>Дата</th>
+            </tr>
+        </thead>
+        <!-- <tbody>
+        {% for user in users %}
+            <tr>
+                <td data-label="ID"><a href="">{{ user.user_id }}</a></td>
+                <td data-label="Имя">{{ user.user_name }}</td>
+                <td data-label="E-mail">{{ user.user_email }}</td>
+                <td data-label="E-mail">{{ user.user_email }}</td>
+            </tr>
+        {% endfor %}
+        </tbody> -->
+    </table>
+
+    <!-- {% for user in users %}
+    
+        
+        <li><p>Пользователь 1:</p>
+        <ul>
+            <li><p>ID пользователя: {{ user.user_id }}</p></li>
+            <li><p>Имя пользователя: {{ user.user_name }}</p></li>
+            <li><p>E-mail пользователя: {{ user.user_email }}</p></li>
+        </ul></li>
+    {% endfor %} -->
+    </ul>
+
+    {# комментарий #}
+
+    
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script> -->
+</body>
+</html>
