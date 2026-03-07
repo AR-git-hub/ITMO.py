@@ -11,7 +11,7 @@ import seaborn as sns
 
 def create_vector(n: int) -> np.ndarray:
     """
-    Создает массив от 0 до n-1.
+    Создает массив от 0 до n-1. 
 
     Args:
         n (int): длина вектора.
