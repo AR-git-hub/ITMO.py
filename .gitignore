@@ -9,6 +9,12 @@ __pycache__/
 # C extensions
 *.so
 
+# Настройки VS Code
+.vscode/
+
+# Данные Claude
+.claude/
+
 # Distribution / packaging
 .Python
 build/
