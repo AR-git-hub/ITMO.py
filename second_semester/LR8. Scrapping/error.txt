@@ -1,0 +1,2 @@
+
+ConnectTimeout: HTTPSConnectionPool(host='news.itmo.ru', port=443): Max retries exceeded with url: /ru/main_news/38/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='news.itmo.ru', port=443) at 0x1ee30627250>, 'Connection to news.itmo.ru timed out. (connect timeout=None)'))
