@@ -1,0 +1,26 @@
+on:
+  push:
+    - workflows: [lab-check]
+      filter:
+        branches: ["main", "master"]
+
+  pull_request:
+    - workflows: [lab-check]
+
+workflows:
+  lab-check:
+    tasks:
+      - name: run-notebook-and-build-report
+        cubes:
+          - name: execute-notebook
+            image: docker.io/library/python:3.11
+            script:
+              # Список ваших команд для получения результата
+              # Важно, на выходе из кубика должны получиться файлы по путям, переданным в artifacts.paths
+              # Замените команды ниже для формирования артефактов на базе вашего "lab.ipynb" файла
+              - touch executed_lab.ipynb
+              - touch report.html
+            artifacts:
+              paths:
+                - executed_lab.ipynb
+                - report.html
