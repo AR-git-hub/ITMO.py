@@ -3,7 +3,6 @@ on:
     - workflows: [lab-check]
       filter:
         branches: ["main", "master"]
-
   pull_request:
     - workflows: [lab-check]
 
@@ -15,11 +14,29 @@ workflows:
           - name: execute-notebook
             image: docker.io/library/python:3.11
             script:
-              # Список ваших команд для получения результата
-              # Важно, на выходе из кубика должны получиться файлы по путям, переданным в artifacts.paths
-              # Замените команды ниже для формирования артефактов на базе вашего "lab.ipynb" файла
-              - touch executed_lab.ipynb
-              - touch report.html
+            # установка необходимых зависимостей
+            - pip install -r requirements.txt
+            # раннер дописывает ячейку с данными о среде выполнения
+            - |
+              python3 -c "
+              import nbformat as nbf
+              import os
+              # Читаем исходный файл
+              nb = nbf.read('lab.ipynb', as_version=4)
+              # Собираем данные (если переменной нет, выведет 'Unknown')
+              job_id = os.getenv('CI_JOB_ID', 'N/A')
+              runner = os.getenv('CI_RUNNER_DESCRIPTION', 'Sourcecraft-Runner')
+              # Текст штампа
+              stamp = f'### Выполнено раннером\n**Job ID:** {job_id}\n**Runner Info:** {runner}'
+              # Вставляем в самое начало
+              nb.cells.insert(0, nbf.v4.new_markdown_cell(stamp))
+              nbf.write(nb, 'lab.ipynb')
+              "
+            # выполнение кода и экспорт в разные форматы
+            - jupyter nbconvert --to notebook --execute lab.ipynb --output executed_lab.ipynb
+            - jupyter nbconvert --to html executed_lab.ipynb --output report.html
+              
+            # указываем файлы, которые хотим сохранить (пути должны совпадать с командами выше)
             artifacts:
               paths:
                 - executed_lab.ipynb
